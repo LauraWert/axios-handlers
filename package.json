@@ -1,0 +1,89 @@
+{
+  "name": "@laura-wert/axios-handlers",
+  "version": "0.0.0",
+  "license": "MIT",
+  "author": " ",
+  "module": "dist/index.common.js",
+  "main": "dist/index.umd.min.js",
+  "typings": "dist/types/index.d.ts",
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "yarn lint && yarn clean && yarn build:main",
+    "build:main": "vue-cli-service build --target lib --name index src/index.ts && rm ./dist/demo.html",
+    "clean": "rimraf ./dist",
+    "release": "yarn git-clean-status && yarn build && yarn publish",
+    "lint": "vue-cli-service lint src tests *.js ",
+    "test": "vue-cli-service test:unit --include tests/setup.ts tests/unit tests/integration",
+    "test:unit": "vue-cli-service test:unit --include tests/setup.ts tests/unit/",
+    "test:unit-s": "vue-cli-service test:unit --include tests/setup.ts",
+    "test:integration": "vue-cli-service test:unit --include tests/setup.ts tests/integration/",
+    "test-ci": "npm run cover && cat ./coverage/lcov.info | codacy-coverage ",
+    "cover": "nyc npm run test:unit"
+  },
+  "peerDependencies": {
+    "axios": "0.18.1",
+    "vue": ">=2.6.0"
+  },
+  "dependencies": {
+    "axios-extensions": "^3.0.6",
+    "lru-cache": "^4.1.5"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.5.4",
+    "@laura-wert/eslint-config": "^1.0.4",
+    "@laura-wert/git-clean-status": "^1.0.0",
+    "@laura-wert/vue-helpers": "^3.0.1",
+    "@types/chai": "^4.2.0",
+    "@types/mocha": "^5.2.7",
+    "@types/node": "^10.14.16",
+    "@types/sinon": "^7.0.13",
+    "@types/sinon-chai": "^3.2.2",
+    "@vue/cli-plugin-babel": "^3.11.0",
+    "@vue/cli-plugin-eslint": "^3.11.0",
+    "@vue/cli-plugin-typescript": "^3.11.0",
+    "@vue/cli-plugin-unit-mocha": "^3.11.0",
+    "@vue/cli-service": "^3.11.0",
+    "@vue/eslint-config-standard": "^4.0.0",
+    "@vue/eslint-config-typescript": "^4.0.0",
+    "axios": "^0.18.1",
+    "axios-mock-adapter": "^1.17.0",
+    "babel-plugin-istanbul": "^5.2.0",
+    "babel-plugin-transform-imports": "^2.0.0",
+    "chai": "^4.2.0",
+    "codacy-coverage": "^3.4.0",
+    "cross-env": "^5.2.0",
+    "eslint": "^5.16.0",
+    "eslint-plugin-chai-friendly": "^0.4.1",
+    "eslint-plugin-vue": "^5.2.3",
+    "lint-staged": "^9.2.0",
+    "nyc": "^14.1.1",
+    "rimraf": "^2.6.3",
+    "sinon": "^7.3.2",
+    "sinon-chai": "^3.3.0",
+    "typescript": "~3.5.3",
+    "vue": "^2.6.10",
+    "vue-template-compiler": "^2.6.10",
+    "webpack-cli": "^3.3.6"
+  },
+  "files": [
+    "package.json",
+    "dist/"
+  ],
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not ie <= 10"
+  ],
+  "gitHooks": {
+    "pre-commit": "lint-staged"
+  },
+  "lint-staged": {
+    "*.{js,vue,ts}": [
+      "vue-cli-service lint",
+      "laura-wert-cli tslint",
+      "git add"
+    ]
+  }
+}
