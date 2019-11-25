@@ -50,12 +50,12 @@ describe('AxiosErrorHandler', () => {
     })
 
     it('can handle the error through a custom error handler', async (): Promise<void> => {
-      error.config.handleError = sinon.stub().returns(false)
+      error.config.errorHandler = sinon.stub().returns(true)
 
       try {
         await interceptor(error)
       } catch (resultError) {
-        expect(error.config.handleError).to.be.calledOnceWith(error)
+        expect(error.config.errorHandler).to.be.calledOnceWith(error)
         expect(errorHandler.getLastError()).to.be.null
         return
       }
@@ -64,12 +64,12 @@ describe('AxiosErrorHandler', () => {
     })
 
     it('can pass the error to the default handler through a custom error handler', async (): Promise<void> => {
-      error.config.handleError = sinon.stub().returns(true)
+      error.config.errorHandler = sinon.stub().returns(false)
 
       try {
         await interceptor(error)
       } catch (resultError) {
-        expect(error.config.handleError).to.be.calledOnceWith(error)
+        expect(error.config.errorHandler).to.be.calledOnceWith(error)
         expect(errorHandler.getLastError()).to.equal(error)
         return
       }

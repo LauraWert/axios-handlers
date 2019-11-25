@@ -7,6 +7,6 @@ declare module 'axios' {
     cache?: string | string[]
     useCache?: boolean | LRU.Cache<string, AxiosPromise> | Cache
     reFetch?: boolean
-    handleError?: (_: AxiosError) => boolean
+    errorHandler?: (_: AxiosError) => boolean
   }
 }

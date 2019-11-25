@@ -17,11 +17,11 @@ export class AxiosErrorHandler {
   public getErrorInterceptor(): onRejectInterceptor {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return (error: any): Promise<any> => {
-      const handleError = error.config && typeof error.config.handleError === 'function'
-        ? error.config.handleError!(error)
-        : true
+      const errorHandled = error.config && typeof error.config.errorHandler === 'function'
+        ? error.config.errorHandler!(error)
+        : false
 
-      if (handleError) {
+      if (!errorHandled) {
         this.setError(error)
       }
 
