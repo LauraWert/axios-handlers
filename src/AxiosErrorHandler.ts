@@ -17,7 +17,7 @@ export class AxiosErrorHandler {
   public getErrorInterceptor(): onRejectInterceptor {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return (error: any): Promise<any> => {
-      const handleError = error.config && error.config.hasOwnProperty('handleError')
+      const handleError = error.config && typeof error.config.handleError === 'function'
         ? error.config.handleError!(error)
         : true
 
