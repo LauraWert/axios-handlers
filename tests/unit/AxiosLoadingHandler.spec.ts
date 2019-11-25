@@ -36,4 +36,18 @@ describe('AxiosLoadingHandler', () => {
 
     expect(loadingHandler.isLoading()).to.be.false
   })
+
+  it('sets loading back to false if all calls are resolved', () => {
+    const requestInterceptor = loadingHandler.getAxiosRequestInterceptor()
+    const responseInterceptor = loadingHandler.getAxiosFulfilledResponseInterceptor()
+
+    requestInterceptor({})
+    requestInterceptor({})
+
+    responseInterceptor(response)
+    expect(loadingHandler.isLoading()).to.be.true
+
+    responseInterceptor(response)
+    expect(loadingHandler.isLoading()).to.be.false
+  })
 })

@@ -1,4 +1,4 @@
-# Axios ahndlers
+# Axios handlers
 ```
 yarn add @laura-wert/axios-handlers
 ```
