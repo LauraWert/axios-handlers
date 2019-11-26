@@ -69,8 +69,6 @@ describe('AxiosCacheHandler', () => {
 
     it('remove url from cache when reFetch is given', (): void => {
       // @ts-ignore  access private prop
-      const throttleCache = cacheHandler.throttleCache = { del: sinon.stub() }
-      // @ts-ignore  access private prop
       const normalCache = cacheHandler.normalCache = { del: sinon.stub() }
 
       const mockConfig: AxiosRequestConfig = {
@@ -82,15 +80,12 @@ describe('AxiosCacheHandler', () => {
       interceptor(mockConfig)
 
       const url = 'http://base.nl/path/'
-      expect(throttleCache.del).to.be.calledOnceWith(url)
       expect(normalCache.del).to.be.calledOnceWith(url)
     })
 
     it('removes all urls of the given domains on a post call', (): void => {
       const url1 = 'http://base.nl/path_1/'
       const url2 = 'http://base.nl/path_2/'
-      // @ts-ignore  access private prop
-      const throttleCache = cacheHandler.throttleCache = { del: sinon.stub() }
       // @ts-ignore  access private prop
       const normalCache = cacheHandler.normalCache = { del: sinon.stub() }
       // @ts-ignore  access private prop
@@ -102,12 +97,18 @@ describe('AxiosCacheHandler', () => {
       }
       interceptor(mockConfig)
 
-      expect(throttleCache.del).to.be.calledTwice
-      expect(throttleCache.del).to.be.calledWith(url1)
-      expect(throttleCache.del).to.be.calledWith(url2)
       expect(normalCache.del).to.be.calledTwice
       expect(normalCache.del).to.be.calledWith(url1)
       expect(normalCache.del).to.be.calledWith(url2)
+    })
+
+    it('removes the complete throttle cache on a patch call', (): void => {
+      // @ts-ignore  access private prop
+      const throttleCache = cacheHandler.throttleCache = { reset: sinon.stub() }
+
+      interceptor({ method: 'PATCH' })
+
+      expect(throttleCache.reset).to.be.calledOnce
     })
   })
 })

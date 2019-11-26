@@ -55,6 +55,7 @@ export class AxiosCacheHandler {
       }
 
       if (['post', 'POST', 'put', 'PUT', 'patch', 'PATCH', 'delete', 'DELETE'].includes(config.method!)) {
+        this.throttleCache.reset()
         if (config.cache !== undefined) {
           this.clearCacheForDomains(config.cache)
         }
@@ -90,7 +91,6 @@ export class AxiosCacheHandler {
   }
 
   private deleteCache(url: string): void {
-    this.throttleCache.del(url)
     this.normalCache.del(url)
   }
 }
