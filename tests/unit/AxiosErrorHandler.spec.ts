@@ -17,6 +17,8 @@ describe('AxiosErrorHandler', () => {
         config: {},
         message: '',
         name: '',
+        isAxiosError: true,
+        toJSON: (): object => ({}),
       }
       interceptor = errorHandler.getErrorInterceptor()
     })

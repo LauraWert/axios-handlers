@@ -37,13 +37,13 @@ describe('AxiosCacheHandler', () => {
 
     installCacheHandler(client, { maxThrottleAge: -1 })
 
-    await client.get('/users', { cache: 'user' })
-    await client.get('/users', { cache: 'user' })
+    await client.get('/users', { cacheDomain: 'user' })
+    await client.get('/users', { cacheDomain: 'user' })
 
     expect(mock.history.get.length).to.equal(1)
 
-    await client.post('/users', {}, { cache: 'user' })
-    await client.get('/users', { cache: 'user' })
+    await client.post('/users', {}, { cacheDomain: 'user' })
+    await client.get('/users', { cacheDomain: 'user' })
 
     expect(mock.history.get.length).to.equal(2)
   })

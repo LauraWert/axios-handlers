@@ -36,7 +36,6 @@ export class AxiosCacheHandler {
     return cacheAdapterEnhancer(client.defaults.adapter!, {
       enabledByDefault: true,
       defaultCache: this.throttleCache,
-      cacheFlag: 'useCache',
     })
   }
 
@@ -44,9 +43,9 @@ export class AxiosCacheHandler {
     return (config: AxiosRequestConfig): AxiosRequestConfig => {
       if (['get', 'GET'].includes(config.method!)) {
         const url = config.baseURL + config.url!
-        if (config.cache !== undefined) {
-          this.addRequestToCacheMap(config.cache, url)
-          config.useCache = this.normalCache
+        if (config.cacheDomain !== undefined) {
+          this.addRequestToCacheMap(config.cacheDomain, url)
+          config.cache = this.normalCache
         }
 
         if (config.reFetch) {
@@ -56,8 +55,8 @@ export class AxiosCacheHandler {
 
       if (['post', 'POST', 'put', 'PUT', 'patch', 'PATCH', 'delete', 'DELETE'].includes(config.method!)) {
         this.throttleCache.reset()
-        if (config.cache !== undefined) {
-          this.clearCacheForDomains(config.cache)
+        if (config.cacheDomain !== undefined) {
+          this.clearCacheForDomains(config.cacheDomain)
         }
       }
 

@@ -28,22 +28,22 @@ describe('AxiosCacheHandler', () => {
       interceptor = cacheHandler.getRequestInterceptor()
     })
 
-    it('changes the request with cache settings on a het request when config.cache is set', (): void => {
+    it('changes the request with cache settings on a het request when config.cacheDomain is set', (): void => {
       const mockConfig: AxiosRequestConfig = {
         method: 'get',
-        cache: 'key',
+        cacheDomain: 'key',
       }
       interceptor(mockConfig)
 
-      expect(mockConfig.useCache!.constructor.name).to.equal('LRUCache')
+      expect(mockConfig.cache!.constructor.name).to.equal('LRUCache')
     })
 
-    it('adds the url to the cache when config.cache is string', (): void => {
+    it('adds the url to the cache when config.cacheDomain is string', (): void => {
       const mockConfig: AxiosRequestConfig = {
         baseURL: 'http://base.nl/',
         url: 'path/',
         method: 'get',
-        cache: 'key',
+        cacheDomain: 'key',
       }
       interceptor(mockConfig)
 
@@ -51,12 +51,12 @@ describe('AxiosCacheHandler', () => {
       expect(cacheHandler.map.key).to.eql(['http://base.nl/path/'])
     })
 
-    it('adds the url to the cache on all keys when config.cache is string array', (): void => {
+    it('adds the url to the cache on all keys when config.cacheDomain is string array', (): void => {
       const mockConfig: AxiosRequestConfig = {
         baseURL: 'http://base.nl/',
         url: 'path/',
         method: 'get',
-        cache: ['key1', 'key2', 'key3'],
+        cacheDomain: ['key1', 'key2', 'key3'],
       }
       interceptor(mockConfig)
 
@@ -93,7 +93,7 @@ describe('AxiosCacheHandler', () => {
 
       const mockConfig: AxiosRequestConfig = {
         method: 'post',
-        cache: 'key',
+        cacheDomain: 'key',
       }
       interceptor(mockConfig)
 
